@@ -11,6 +11,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Spinner firstDropdown = findViewById(R.id.dropdown1);
+        Spinner secondDropdown = findViewById(R.id.dropdown2);
+        String[] items = new String[]{"feet", "inches", "yards", "meters"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        firstDropdown.setAdapter(adapter);
+        secondDropdown.setAdapter(adapter);
     }
 
     @Override

@@ -13,24 +13,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        final TextView resulttv = findViewById(R.id.resulttv);
+        final TextView inputtv = findViewById(R.id.input1);
 
         Spinner firstDropdown = findViewById(R.id.dropdown1);
         Spinner secondDropdown = findViewById(R.id.dropdown2);
@@ -38,6 +34,42 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         firstDropdown.setAdapter(adapter);
         secondDropdown.setAdapter(adapter);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener((view) -> {
+            if(firstDropdown.getSelectedItem().toString() == secondDropdown.getSelectedItem().toString())
+                resulttv.setText(inputtv.getText().toString());
+            else resulttv.setText(convert(firstDropdown.getSelectedItem().toString(), secondDropdown.getSelectedItem().toString(), inputtv.getText().toString()));
+            int index = resulttv.getText().toString().indexOf(".");
+            if(Float.parseFloat(resulttv.getText().toString()) == Math.ceil(Float.parseFloat(resulttv.getText().toString()))) {
+                resulttv.setText(resulttv.getText().toString().substring(0, index));
+                return;
+            }
+            if(index >= 0 && resulttv.getText().toString().substring(index).length() > 4) {
+                resulttv.setText(resulttv.getText().toString().substring(0, index + 4));
+            }
+        });
+    }
+
+    public String convert(String inputType, String outputType, String input) {
+        if(inputType == "feet") {
+            if(outputType == "inches") return "" + (Float.parseFloat(input) * 12);
+            if(outputType == "yards") return "" + (Float.parseFloat(input) / 3);
+            if(outputType == "meters") return "" + (Float.parseFloat(input) / 3.281);
+        }
+        if(inputType == "inches") {
+            if(outputType == "feet") return "" + (Float.parseFloat(input) / 12);
+            if(outputType == "yards") return "" + (Float.parseFloat(input) / 36);
+            if(outputType == "meters") return "" + (Float.parseFloat(input) / 39.37);
+        }
+        if(inputType == "yards") {
+            if(outputType == "feet") return "" + (Float.parseFloat(input) * 3);
+            if(outputType == "inches") return "" + (Float.parseFloat(input) * 36);
+            if(outputType == "meters") return "" + (Float.parseFloat(input) / 1.094);
+        }
+        if(outputType == "feet") return "" + (Float.parseFloat(input) * 3.281);
+        if(outputType == "inches") return "" + (Float.parseFloat(input) * 39.37);
+        return "" + (Float.parseFloat(input) * 1.094);
     }
 
     @Override

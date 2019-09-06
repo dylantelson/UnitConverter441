@@ -30,11 +30,11 @@
         layout="@layout/content_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="125dp"
-        android:layout_marginLeft="125dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginLeft="85dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginRight="125dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginRight="165dp"
         android:layout_marginBottom="16dp"
         app:layout_anchor="@+id/fab"
         app:layout_anchorGravity="bottom|center"
@@ -72,11 +72,11 @@
         android:layout_marginEnd="178dp"
         android:layout_marginRight="178dp"
         android:layout_marginBottom="338dp"
+        android:src="@drawable/ic_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <Spinner
         android:id="@+id/dropdown1"

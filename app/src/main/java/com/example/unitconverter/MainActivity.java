@@ -27,16 +27,20 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //resulttv is the textbox for the converted result. inputtv is the textbox for the input the user wants converted.
         final TextView resulttv = findViewById(R.id.resulttv);
         final TextView inputtv = findViewById(R.id.input1);
 
+        //firstDropdown is input type spinner, secondDropdown is result type spinner, typeDropdown is the conversion type spinner at the bottom
         Spinner firstDropdown = findViewById(R.id.dropdown1);
         Spinner secondDropdown = findViewById(R.id.dropdown2);
         Spinner typeDropdown = findViewById(R.id.typedropdown);
+        //the different types of conversion possible- length, temperature, and mass. These are listed under conversionTypes, and the options for each are under their respective arrays.
         String[] itemsLength = new String[]{"feet", "inches", "yards", "meters", "centimeters", "kilometers", "miles"};
         String[] itemsTemp = new String[]{"celsius", "fahrenheit", "kelvin"};
         String[] itemsMass = new String[]{"kilograms", "grams", "ounces", "pounds", "stones", "tonnes"};
         String[] conversionTypes = new String[]{"length", "temp", "mass"};
+        //Making arrayAdapters from the arrays that spinners can use, then setting each dropdown to the defaults (Length).
         ArrayAdapter<String> adapterLength = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsLength);
         ArrayAdapter<String> adapterTemp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsTemp);
         ArrayAdapter<String> adapterMass = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsMass);
@@ -45,8 +49,11 @@ public class MainActivity extends AppCompatActivity {
         secondDropdown.setAdapter(adapterLength);
         typeDropdown.setAdapter(adapterTypes);
 
+        //On click of the typeDropdown
         typeDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //On selection of the new type
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                //Reset the text of the input textfield and result to default, and change the other spinners based on the new type.
                 resulttv.setText("Result");
                 inputtv.setText("");
                 if(pos == 0) {
@@ -67,15 +74,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //Conversion button
         FloatingActionButton fab = findViewById(R.id.fab);
+        //On conversion button clicked
         fab.setOnClickListener((view) -> {
+            //If input type and result type are the same, simply copy the input to the result
             if(firstDropdown.getSelectedItem().toString() == secondDropdown.getSelectedItem().toString())
             {
                 resulttv.setText(inputtv.getText().toString());
                 return;
             }
+            //Convert using the convert(String inputType, String outputType, String input, String conversionType) method
             else resulttv.setText(convert(firstDropdown.getSelectedItem().toString(), secondDropdown.getSelectedItem().toString(), inputtv.getText().toString(), typeDropdown.getSelectedItem().toString()));
+            //Check how many decimal places are used, and if too large, cut it down to max 3)
             int index = resulttv.getText().toString().indexOf(".");
             if(Float.parseFloat(resulttv.getText().toString()) == Math.ceil(Float.parseFloat(resulttv.getText().toString()))) {
                 resulttv.setText(resulttv.getText().toString().substring(0, index));
@@ -88,12 +99,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String convert(String inputType, String outputType, String input, String conversionType) {
+        //Call one of the more specific convert functions based on which type is selected
+        //returns the string returned by the more specific convert function
         if(conversionType == "length") return convertLength(inputType, outputType, input);
         else if(conversionType == "temp") return convertTemp(inputType, outputType, input);
         return convertMass(inputType, outputType, input);
     }
 
     public String convertTemp(String inputType, String outputType, String input) {
+        //Converts temperatures based on which are selected, then returns them. Takes input, then returns the output as a string using an existing formula.
         if(inputType == "celsius") {
             if(outputType == "fahrenheit") return "" + ((Float.parseFloat(input) * 9/5) + 32);
             else return "" + (Float.parseFloat(input) + 273.15);
@@ -110,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String convertMass(String inputType, String outputType, String input) {
+        //Converts mass based on which are selected, then returns them. Takes input, then returns the output as a string using an existing formula.
         if(inputType == "kilograms") {
             if(outputType == "grams") return "" + (Float.parseFloat(input) * 1000);
             else if(outputType == "ounces") return "" + (Float.parseFloat(input) * 35.274);
@@ -158,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String convertLength(String inputType, String outputType, String input) {
+        //Converts length based on which are selected, then returns them. Takes input, then returns the output as a string using an existing formula.
         if(inputType == "feet") {
             if(outputType == "inches") return "" + (Float.parseFloat(input) * 12);
             else if(outputType == "yards") return "" + (Float.parseFloat(input) / 3);

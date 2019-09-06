@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         //resulttv is the textbox for the converted result. inputtv is the textbox for the input the user wants converted.
         final TextView resulttv = findViewById(R.id.resulttv);
         final TextView inputtv = findViewById(R.id.input1);
+
+        final ImageView backgroundImage = findViewById(R.id.backgroundImage);
 
         //firstDropdown is input type spinner, secondDropdown is result type spinner, typeDropdown is the conversion type spinner at the bottom
         Spinner firstDropdown = findViewById(R.id.dropdown1);
@@ -59,14 +62,17 @@ public class MainActivity extends AppCompatActivity {
                 if(pos == 0) {
                     firstDropdown.setAdapter(adapterLength);
                     secondDropdown.setAdapter(adapterLength);
+                    backgroundImage.setImageResource(R.drawable.ruler);
                 }
                 else if(pos == 1) {
                     firstDropdown.setAdapter(adapterTemp);
                     secondDropdown.setAdapter(adapterTemp);
+                    backgroundImage.setImageResource(R.drawable.thermometer);
                 }
                 else {
                     firstDropdown.setAdapter(adapterMass);
                     secondDropdown.setAdapter(adapterMass);
+                    backgroundImage.setImageResource(R.drawable.scale);
                 }
             }
             public void onNothingSelected(AdapterView<?> parent)

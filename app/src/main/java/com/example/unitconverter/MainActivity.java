@@ -42,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
         String[] itemsLength = new String[]{"feet", "inches", "yards", "meters", "centimeters", "kilometers", "miles"};
         String[] itemsTemp = new String[]{"celsius", "fahrenheit", "kelvin"};
         String[] itemsMass = new String[]{"kilograms", "grams", "ounces", "pounds", "stones", "tonnes"};
-        String[] conversionTypes = new String[]{"length", "temp", "mass"};
+        String[] itemsVolume = new String[]{"cups", "liters", "quarts"};
+        String[] conversionTypes = new String[]{"length", "temp", "mass", "volume"};
         //Making arrayAdapters from the arrays that spinners can use, then setting each dropdown to the defaults (Length).
         ArrayAdapter<String> adapterLength = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsLength);
         ArrayAdapter<String> adapterTemp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsTemp);
         ArrayAdapter<String> adapterMass = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsMass);
+        ArrayAdapter<String> adapterVolume = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsVolume);
         ArrayAdapter<String> adapterTypes = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, conversionTypes);
         firstDropdown.setAdapter(adapterLength);
         secondDropdown.setAdapter(adapterLength);
@@ -62,17 +64,21 @@ public class MainActivity extends AppCompatActivity {
                 if(pos == 0) {
                     firstDropdown.setAdapter(adapterLength);
                     secondDropdown.setAdapter(adapterLength);
-                    backgroundImage.setImageResource(R.drawable.ruler);
+                    backgroundImage.setImageResource(R.mipmap.ruler);
                 }
                 else if(pos == 1) {
                     firstDropdown.setAdapter(adapterTemp);
                     secondDropdown.setAdapter(adapterTemp);
-                    backgroundImage.setImageResource(R.drawable.thermometer);
+                    backgroundImage.setImageResource(R.mipmap.thermometer);
                 }
-                else {
+                else if(pos == 2){
                     firstDropdown.setAdapter(adapterMass);
                     secondDropdown.setAdapter(adapterMass);
-                    backgroundImage.setImageResource(R.drawable.scale);
+                    backgroundImage.setImageResource(R.mipmap.scale);
+                } else {
+                    firstDropdown.setAdapter(adapterVolume);
+                    secondDropdown.setAdapter(adapterVolume);
+                    backgroundImage.setImageResource(R.mipmap.cup);
                 }
             }
             public void onNothingSelected(AdapterView<?> parent)
@@ -109,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         //returns the string returned by the more specific convert function
         if(conversionType == "length") return convertLength(inputType, outputType, input);
         else if(conversionType == "temp") return convertTemp(inputType, outputType, input);
-        return convertMass(inputType, outputType, input);
+        else if(conversionType == "mass") return convertMass(inputType, outputType, input);
+        return convertVol(inputType, outputType, input);
     }
 
     public String convertTemp(String inputType, String outputType, String input) {
@@ -126,6 +133,20 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 return "" + ((Float.parseFloat(input) - 273.15) * 9/5 + 32);
             }
+        }
+    }
+
+    public String convertVol(String inputType, String outputType, String input) {
+        //Converts volume based on which are selected, then returns them. Takes input, then returns the output as a string using an existing formula.
+        if(inputType == "cups") {
+            if(outputType == "liters") return "" + (Float.parseFloat(input)) / 4.227;
+            else return "" + (Float.parseFloat(input) / 4);
+        } else if(inputType == "liters") {
+            if(outputType == "cups") return "" + (Float.parseFloat(input)) * 4.227;
+            else return "" + (Float.parseFloat(input)) * 1.057;
+        } else {
+            if(outputType == "cups") return "" + (Float.parseFloat(input)) * 4;
+            else return "" + (Float.parseFloat(input)) / 1.057;
         }
     }
 

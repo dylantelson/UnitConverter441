@@ -5,6 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8FFFD"
     tools:context=".MainActivity">
 
     <ImageView
@@ -17,14 +18,14 @@
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="50dp"
+        android:dither="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/thermometer"
+        android:src="@mipmap/thermometer"
+        android:tileMode="repeat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:tileMode="repeat"
-        android:dither="true" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
